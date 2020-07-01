@@ -93,3 +93,4 @@ T.get('users/lookup', { screen_name: "blackmon_coder" },heavy_mist);
 
 
 // client.login(process.env.BOT_TOKEN);
+//guidebook https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/guides/twitter-account-activity-tutorial-autohook
