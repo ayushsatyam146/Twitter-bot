@@ -13,51 +13,53 @@ var T = new Twit({
 
 
 //POSTING DMs TO TWITTER VIA DISCORD
-// const client = new Discord.Client();
+const client = new Discord.Client();
 
-// client.once('ready', () => {
-//     console.log('Ready!');
-// });
+client.once('ready', () => {
+    console.log('Ready!');
+});
 
-// client.on('message',message => {
-//   if(message.content.startsWith(`!send`)){
-//     var array = message.content.split("/");
-//     var taker = array[1];
-//     var msg = array[2];
+client.on('message',message => {
+  if(message.content.startsWith(`!send`)){
+    var array = message.content.split("/");
+    var taker = array[1];
+    var msg = array[2];
 
-//     function heavy_mist(err, data, response) {
-//       var rece_id = data[0].id_str;
-//       var params = {
-//         "event": {
-//           "type": "message_create",
-//           "message_create": {
-//             "target": { "recipient_id": rece_id },
-//             "message_data": { "text": msg }
-//           }
-//         }
-//       }
+    function heavy_mist(err, data, response) {
+      var rece_id = data[0].id_str;
+      var params = {
+        "event": {
+          "type": "message_create",
+          "message_create": {
+            "target": { "recipient_id": rece_id },
+            "message_data": { "text": msg }
+          }
+        }
+      }
 
-//       T.post("direct_messages/events/new", params, function (
-//         err,
-//         data,
-//         response
-//       ) {
-//         console.log(data);
-//         message.channel.send(`Message sent to @${taker}`);
-//       });
+      T.post("direct_messages/events/new", params, function (
+        err,
+        data,
+        response
+      ) {
+        console.log(data);
+        message.channel.send(`Message sent to @${taker}`);
+      });
 
-//     }
-//     T.get('users/lookup', { screen_name: taker }, heavy_mist);
+    }
+    T.get('users/lookup', { screen_name: taker }, heavy_mist);
 
-//   }
-// })
-// client.login(process.env.BOT_TOKEN);
+  }
+})
+client.login(process.env.BOT_TOKEN);
 
 
 
 //************************************************************************************** */
 
-//FOR FETCHING DMs
+
+//FETCHING DMs FROM TWITTER IN REAL TIME
+
 const { Autohook } = require("twitter-autohook");
 
 (async (start) => {
@@ -74,6 +76,11 @@ const { Autohook } = require("twitter-autohook");
           response
         ) {
           console.log(data.screen_name + " said " + text);
+          //want to use text and screen_name to post a message to discord
+          //just like happening in line 46 but unable to do so.
+          //seems like discord modules are not available here in this 
+          //autohook function. also is it possible to use data from this request
+          //to be used outside this function to send message
         });
       }
     });
@@ -90,18 +97,6 @@ const { Autohook } = require("twitter-autohook");
 })();
 
 
-const client = new Discord.Client();
-
-client.once('ready', () => {
-    console.log('Ready!');
-});
-
-client.on('message',message => {
-    if(message.content.startsWith(`${prefix}kick`)){
-        message.channel.send(`You just got a kick beacuse "${prefix}" prefix is presnet`);
-    }
-})
 
 
 
-client.login(process.env.BOT_TOKEN);
