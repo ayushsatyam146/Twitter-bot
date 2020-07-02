@@ -76,7 +76,7 @@ const { Autohook } = require("twitter-autohook");
           response
         ) {
           console.log(data.screen_name + " said " + text);
-          //want to use text and screen_name to post a message to discord
+          //want to use text and screen_name to post a message to discord instead of console logging them
           //just like happening in line 46 but unable to do so.
           //seems like discord modules are not available here in this 
           //autohook function. also is it possible to use data from this request
